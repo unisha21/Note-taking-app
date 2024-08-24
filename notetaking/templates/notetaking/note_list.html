@@ -1,0 +1,104 @@
+<!-- notetaking/templates/notetaking/note_list.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Note List</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+          integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: #007bff;
+        }
+
+        .note-card {
+            position: relative;
+            border: 1px solid #dee2e6;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .note-content {
+            font-size: 16px;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 4; /* Limit to 4 lines */
+            -webkit-box-orient: vertical;
+            margin-bottom: 10px;
+        }
+
+        .logout-link {
+            position: absolute;
+            top: 0;
+            right: 0;
+            margin-top: 20px;
+            margin-right: 30px;
+            text-align: right;
+            font-weight: 500;
+        }
+
+        .action-icons {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            display: flex; /* Use flex container for action icons */
+            align-items: center;
+            height: 50px;
+            width: 140px;
+            background-color: burlywood;
+        }
+
+        .action-icons a {
+            margin-left: 10px;
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Hello, {{ user.username }}!</h1>
+    <a href="{% url 'logout' %}" class="logout-link">Logout</a>
+
+    {% if notes %}
+        {% for note in notes %}
+            <div class="note-card">
+                <h2>{{ note.title }}</h2>
+                <p class="note-content">{{ note.content }}</p>
+                <div class="action-icons">
+                    <a href="{% url 'note_edit' pk=note.pk %}" class="btn btn-primary btn-sm" title="Edit">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    <a href="{% url 'note_delete' pk=note.pk %}" class="btn btn-danger btn-sm" title="Delete">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                    <a href="{% url 'note_detail' pk=note.pk %}" class="btn btn-primary btn-sm" title="View Details">
+                        <i class="fas fa-eye"></i>
+                    </a>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No notes available. Why not create a new one?</p>
+    {% endif %}
+
+    <a href="{% url 'note_new' %}" class="btn btn-primary btn-lg">Create a new note</a>
+</div>
+</body>
+</html>
